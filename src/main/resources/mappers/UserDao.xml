@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shi.dao.UserDao">
+    <select id="queryById" parameterType="int"
+            resultType="User">
+        select *
+        from user
+        where userid = #{userid}
+    </select>
+    <select id="queryUserByUserName" parameterType="string"
+            resultType="User">
+        select *
+        from user
+        where username=#{userName}
+    </select>
+    <insert id="save" parameterType="User">
+        insert into user(username,password) values(#{username},#{password})
+    </insert>
+    <update id="update" parameterType="User">
+        update user set username =#{username},password=#{password}
+        where userid = #{userid}
+    </update>
+    <select id="selectByParams"
+            parameterType="UserQuery"
+            resultType="User">
+        select *
+        from user
+        <where>
+            <if test="null !=username and username !=''">
+                and username like concat('%',#{username},'%')
+            </if>
+        </where>
+    </select>
+    <delete id="delete" parameterType="int">
+        delete from user where userid=#{userid}
+    </delete>
+</mapper>
